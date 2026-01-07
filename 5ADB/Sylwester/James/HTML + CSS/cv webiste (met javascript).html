@@ -1,0 +1,157 @@
+
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Sylwester Luniewski - CV</title>
+
+  <!-- Correcte verwijzing naar je stylesheet -->
+  <link rel="stylesheet" href="style.css" />
+
+  <!-- Basis tab-styling (optioneel; verplaats naar style.css) -->
+  <style>
+    .tabs { border-bottom: 1px solid #ddd; margin-top: 16px; }
+    .tablist { display: flex; gap: 8px; flex-wrap: wrap; }
+    .tab {
+      background: transparent; border: none; padding: 10px 14px;
+      cursor: pointer; border-bottom: 2px solid transparent; font-weight: 600;
+    }
+    .tab[aria-selected="true"] { border-bottom-color: #3b82f6; color: #000; }
+    .tab:focus { outline: 2px solid #3b82f6; outline-offset: 2px; }
+    .tab-content { padding-top: 12px; }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+
+    <div class="header">
+      <!-- Correcte img-tag -->
+      <img src="profile.jpg" alt="Profielfoto" class="profile-photo" />
+
+      <div>
+        <h1>Sylwester Luniewski</h1>
+        <p>Bukenhof 16/2, 1910 Kampenhout</p>
+        <p>Email: lewiu_@outlook.com</p>
+        <p>Tel: +32 484 03 91 34</p>
+        <p>Geboortedatum: 28 maart 2008</p>
+      </div>
+    </div>
+
+    <!-- ARIA-tabs -->
+    <nav class="tabs" aria-label="Cv-secties">
+      <div class="tablist" role="tablist">
+        <button id="tab1" class="tab" role="tab" aria-selected="true" aria-controls="content1">Profiel</button>
+        <button id="tab2" class="tab" role="tab" aria-selected="false" aria-controls="content2">Opleiding</button>
+        <button id="tab3" class="tab" role="tab" aria-selected="false" aria-controls="content3">Vaardigheden</button>
+        <button id="tab4" class="tab" role="tab" aria-selected="false" aria-controls="content4">Talen</button>
+        <button id="tab5" class="tab" role="tab" aria-selected="false" aria-controls="content5">Hobby's</button>
+      </div>
+    </nav>
+
+    <div class="tab-contents">
+      <section id="content1" class="tab-content" role="tabpanel" aria-labelledby="tab1">
+        <h2>Profiel</h2>
+        <p>Ik ben een gemotiveerde en leergierige student met een passie voor technologie en programmeren. Ik streef ernaar om mijn vaardigheden voortdurend te verbeteren en nieuwe uitdagingen aan te gaan. Een sociale, behulpzame en creatieve leerling. Gedreven om anderen te ondersteunen en steeds op zoek naar manieren om samen te groeien.</p>
+      </section>
+      
+      <section id="content2" class="tab-content" role="tabpanel" aria-labelledby="tab2" hidden>
+        <h2>Opleiding</h2>
+        <h2>Technisch Atheneum Keerbergen</h2>
+        <p>Technologische Wetenschappen ASO / DO - 3de middelbaar</p>
+        <p>Elektriciteit TSO / DF - 4de middelbaar</p>
+        <p>Aplicatie en Databeheer TSO / DF - 5de middelbaar (huidig)</p>
+      </section>
+
+      <section id="content3" class="tab-content" role="tabpanel" aria-labelledby="tab3" hidden>
+        <h2>Vaardigheden</h2>
+        <ul>
+          <h2>Algemeene</h2>
+          <li>Vriendelijk en Sociaal</li>
+          <li>Teamspeler</li>
+          <li>Wilt altijd nieuwe dingen leren</li>
+          <li>Behulpzaam en betrouwbaar</li>
+          <li>Creatief en logisch denkvermogen</li>
+          
+          <h2>Programmeertalen &amp; Technologieën:</h2>
+          <li>HTML/CSS</li>
+          <li>JavaScript</li>
+          <li>Python</li>
+          <li>Git &amp; GitHub</li>
+        </ul>
+      </section>
+
+      <section id="content4" class="tab-content" role="tabpanel" aria-labelledby="tab4" hidden>
+        <h2>Talen</h2>
+        <ul>
+          <li>Pools (Moedertaal)</li>
+          <li>Nederlands (Beheerst)</li>
+          <li>Engels (gevorderd)</li>
+          <li>Frans (basiskennis)</li>
+        </ul>
+      </section>
+
+      <section id="content5" class="tab-content" role="tabpanel" aria-labelledby="tab5" hidden>
+        <h2>Hobby's</h2>
+        <ul>
+          <li>Simracing/racen</li>
+          <li>Computers</li>
+          <li>Voetbal</li>
+          <li>Programmeren</li>
+          <li>Muziek</li>
+        </ul>
+      </section>
+    </div>
+  </div>
+
+  <!-- JS: Toegankelijke tabs (ARIA) + keyboard + deeplinks -->
+  <script>
+    (function () {
+      const tablist = document.querySelector('[role="tablist"]');
+      if (!tablist) return; // safety
+
+      const tabs = Array.from(tablist.querySelectorAll('[role="tab"]'));
+      const panels = tabs.map(tab => document.getElementById(tab.getAttribute('aria-controls')));
+
+      function activateTab(nextTab, { setFocus = true, pushHash = true } = {}) {
+        tabs.forEach((tab, i) => {
+          const selected = tab === nextTab;
+          tab.setAttribute('aria-selected', String(selected));
+          tab.tabIndex = selected ? 0 : -1;
+          if (panels[i]) panels[i].hidden = !selected;
+        });
+        if (setFocus) nextTab.focus();
+        if (pushHash) history.replaceState(null, '', `#${nextTab.id}`);
+      }
+
+      // Klikken
+      tabs.forEach(tab => tab.addEventListener('click', () => activateTab(tab)));
+
+      // Keyboard-navigatie
+      tablist.addEventListener('keydown', (e) => {
+        const current = tabs.findIndex(t => t.getAttribute('aria-selected') === 'true');
+        switch (e.key) {
+          case 'ArrowRight': e.preventDefault(); activateTab(tabs[(current + 1) % tabs.length]); break;
+          case 'ArrowLeft':  e.preventDefault(); activateTab(tabs[(current - 1 + tabs.length) % tabs.length]); break;
+          case 'Home':       e.preventDefault(); activateTab(tabs[0]); break;
+          case 'End':        e.preventDefault(); activateTab(tabs[tabs.length - 1]); break;
+          case 'Enter':
+          case ' ':
+            e.preventDefault(); activateTab(tabs[current]); break;
+        }
+      });
+
+      // Deeplinks: #tab2, #tab3, ...
+      function initFromHash() {
+        const id = location.hash.slice(1);
+        const tab = tabs.find(t => t.id === id);
+        if (tab) activateTab(tab, { setFocus: false, pushHash: false });
+        else activateTab(tabs[0], { setFocus: false, pushHash: false });
+      }
+      window.addEventListener('hashchange', initFromHash);
+      initFromHash();
+    })();
+  </script>
+</body>
+</html>
