@@ -31,65 +31,66 @@ body {
     background: #ddd;
 }
 
-/* Tabs */
-.tabs input[type="radio"] {
-    display: none;
+/* ----------------------------- */
+/* NEW: Navigation menu styling  */
+/* ----------------------------- */
+
+nav {
+    margin-bottom: 20px;
+    border-bottom: 2px solid #ddd;
+    padding-bottom: 10px;
+}
+
+nav a {
+    margin-right: 20px;
+    text-decoration: none;
+    color: #2c3e50;
+    font-weight: bold;
+}
+
+nav a:hover {
+    text-decoration: underline;
+}
+
+/* ----------------------------- */
+/* Tabs (no longer used, optional) */
+/* ----------------------------- */
+
+.tabs {
+    display: flex;
     border-bottom: 2px solid #ddd;
     margin-bottom: 20px;
 }
 
-/* Hide radio buttons */
 input[type="radio"] {
     display: none;
 }
 
-/* Tab labels */
 .tab-label {
     padding: 12px 20px;
     cursor: pointer;
-    background: #eee;
-    border-radius: 5px 5px 0 0;
-    margin-right: 5px;
     border-bottom: 3px solid transparent;
     transition: 0.3s;
-}
-
-
-.tabs {
-    display: flex;
 }
 
 .tab-label:hover {
     background: #eee;
 }
 
-/* Active tab */
 input:checked + .tab-label {
     border-bottom: 3px solid #2c3e50;
     font-weight: bold;
 }
 
-
-#tab1:checked + .tab-label,
-#tab2:checked + .tab-label,
-#tab3:checked + .tab-label,
-#tab4:checked + .tab-label,
-#tab5:checked + .tab-label {
-    background: #ccc;
-    border-bottom: 3px solid #2c3e50;
-    font-weight: bold;
-}
-/* Tab content */
 .tab-content {
     display: none;
     padding-top: 10px;
 }
 
-/* Show content when radio is checked */
-#tab1:checked ~ .tab-content #content1,
-#tab2:checked ~ .tab-content #content2,
-#tab3:checked ~ .tab-content #content3,
-#tab4:checked ~ .tab-content #content4,
-#tab5:checked ~ .tab-content #content5 {
+#tab1:checked ~ #content1,
+#tab2:checked ~ #content2,
+#tab3:checked ~ #content3,
+#tab4:checked ~ #content4,
+#tab5:checked ~ #content5 {
     display: block;
 }
